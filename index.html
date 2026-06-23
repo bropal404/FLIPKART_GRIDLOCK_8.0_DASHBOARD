@@ -834,7 +834,7 @@
         <div class="sidebar-nav">
 
             <div class="nav-category">Detection</div>
-            <div class="nav-item active" onclick="switchTab('upload', this)">
+            <div class="nav-item" onclick="switchTab('upload', this)">
                 <i class="fa-solid fa-cloud-arrow-up"></i> Media Input
             </div>
             <div class="nav-item" onclick="switchTab('status', this)">
@@ -856,7 +856,7 @@
             </div>
 
             <div class="nav-category">Enforcement</div>
-            <div class="nav-item" onclick="switchTab('challans', this)">
+            <div class="nav-item active" onclick="switchTab('challans', this)">
                 <i class="fa-solid fa-file-invoice"></i> Challans
             </div>
             <div class="nav-item" onclick="switchTab('mapview', this)">
@@ -1387,7 +1387,7 @@
             updateMap(filtered);
         }
 
-        fetchExtracted();
+        switchTab('challans');
     </script>
 </body>
 

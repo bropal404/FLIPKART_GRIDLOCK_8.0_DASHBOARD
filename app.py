@@ -1,15 +1,7 @@
 import os
-os.environ['PIPELINE_INPUT_FOLDER'] = 'data/uploads'
-os.environ['PIPELINE_OUTPUT_FOLDER'] = 'data/challans'
-os.environ['PIPELINE_MODELS_FOLDER'] = 'models'
-os.environ['YOLO_VERBOSE'] = 'False'
-
 import time
-import threading
-import queue
 from pathlib import Path
 from flask import Flask, request, jsonify, send_from_directory, send_file
-import cv2
 
 app = Flask(__name__, static_folder='data')
 
@@ -22,7 +14,6 @@ CHALLAN_FOLDER.mkdir(parents=True, exist_ok=True)
 EXTRACTED_FOLDER.mkdir(parents=True, exist_ok=True)
 
 processing_tasks = {}
-task_queue = queue.Queue()
 
 
 # ── GPS / Location Extraction ─────────────────────────────────────────────────
@@ -391,33 +382,7 @@ def process_video_task(task_id, file_path, pipeline_core, video_core, vehicle_mo
         log_task(task_id, f'ERROR during processing: {str(e)}')
         processing_tasks[task_id]['progress'] = 0
 
-def background_worker():
-    print("Background ML worker starting. Loading core ML modules...")
-    try:
-        import pipeline_core
-        import video_core
-        from ultralytics import YOLO
-        vehicle_model = YOLO('models/yolo_vehicle_best.pt')
-        print("ML modules loaded successfully! Ready for tasks.")
-    except Exception as e:
-        print(f"Error loading ML modules in worker: {e}")
-        return
-
-    while True:
-        task = task_queue.get()
-        if task is None:
-            break
-        task_id, file_path, file_ext = task
-        print(f"Worker picked up task {task_id}")
-        if file_ext in ['mp4', 'avi', 'mov']:
-            process_video_task(task_id, file_path, pipeline_core, video_core, vehicle_model)
-        else:
-            process_image_task(task_id, file_path, pipeline_core, vehicle_model)
-        task_queue.task_done()
-
-# Start the single background ML worker thread
-worker_thread = threading.Thread(target=background_worker, daemon=True)
-worker_thread.start()
+# ML worker disabled — app runs in challan-display-only mode
 
 @app.route('/')
 def index():
