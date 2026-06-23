@@ -2,6 +2,7 @@
 
 AI-powered traffic violation detection and automated challan generation, from photo to penalty in seconds.
 
+![demo of the application](image.png)
 ---
 
 ## Getting Started
@@ -26,7 +27,6 @@ Navigate to `localhost:5000` in your browser (or the address printed by Flask).
 
 ---
 
-![demo of the application](image.png)
 
 
 ## What It Does
