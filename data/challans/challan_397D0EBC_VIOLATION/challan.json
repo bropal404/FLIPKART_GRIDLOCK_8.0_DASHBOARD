@@ -1,0 +1,45 @@
+{
+  "challan_id": "397D0EBC",
+  "challan_dir": "data/challans/challan_397D0EBC_VIOLATION",
+  "source_image": "data/extracted/extracted_1782191279_0.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Not wearing seatbelt"
+  ],
+  "fine_total": 1000,
+  "registration_number": "[PLATE NOT DETECTED]",
+  "vlm_description": "",
+  "vlm_evidence": [
+    "YOLO detected: Not wearing seatbelt"
+  ],
+  "detections": [
+    {
+      "class_id": 6,
+      "raw_class_name": "no_seatbelt",
+      "class_name": "no_seatbelt",
+      "confidence": 0.717522919178009,
+      "box": [
+        87,
+        127,
+        162,
+        227
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "[PLATE NOT DETECTED]",
+    "ocr_confidence": NaN,
+    "char_count": 0,
+    "plate_crop": null,
+    "plate_annotated": null,
+    "status": "plate_box_missing"
+  },
+  "no_helmet_crops": [],
+  "files": {
+    "original": "data/challans/challan_397D0EBC_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_397D0EBC_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_397D0EBC_VIOLATION/challan.md",
+    "plate_crop": null,
+    "plate_ocr": null
+  }
+}

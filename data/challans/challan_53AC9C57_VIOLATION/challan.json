@@ -1,0 +1,90 @@
+{
+  "challan_id": "53AC9C57",
+  "challan_dir": "data/challans/challan_53AC9C57_VIOLATION",
+  "source_image": "data/extracted/extracted_1782153774_0.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Riding without helmet"
+  ],
+  "fine_total": 1000,
+  "registration_number": "[OCR FAILED]",
+  "vlm_description": "The image shows a man riding a scooter down a street next to another man. The man on the scooter is wearing a white t-shirt and black pants, while the other man is standing to the side of the road.",
+  "vlm_evidence": [
+    "YOLO detected: Riding without helmet",
+    "VLM caption (on crop): The image shows a man riding a scooter down a street next to another man. The man on the scooter is wearing a white t-sh"
+  ],
+  "detections": [
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.8965932726860046,
+      "box": [
+        48,
+        70,
+        178,
+        469
+      ]
+    },
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.7397068738937378,
+      "box": [
+        134,
+        398,
+        231,
+        545
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.2856939435005188,
+      "box": [
+        83,
+        365,
+        122,
+        405
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "[OCR FAILED]",
+    "ocr_confidence": NaN,
+    "char_count": 0,
+    "latency_ms": 256.64,
+    "characters": [],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "",
+        "char_count": 0,
+        "ocr_confidence": NaN
+      }
+    ],
+    "plate_crop": "data/challans/challan_53AC9C57_VIOLATION/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_53AC9C57_VIOLATION/plate_ocr.jpg",
+    "status": "ocr_failed"
+  },
+  "no_helmet_crops": [
+    {
+      "path": "data/challans/challan_53AC9C57_VIOLATION/no_helmet_crop_00_conf0.90.jpg",
+      "confidence": 0.8965932726860046
+    },
+    {
+      "path": "data/challans/challan_53AC9C57_VIOLATION/no_helmet_crop_01_conf0.74.jpg",
+      "confidence": 0.7397068738937378
+    }
+  ],
+  "files": {
+    "original": "data/challans/challan_53AC9C57_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_53AC9C57_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_53AC9C57_VIOLATION/challan.md",
+    "plate_crop": "data/challans/challan_53AC9C57_VIOLATION/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_53AC9C57_VIOLATION/plate_ocr.jpg"
+  }
+}

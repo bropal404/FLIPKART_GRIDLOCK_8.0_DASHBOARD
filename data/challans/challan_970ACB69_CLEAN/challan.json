@@ -1,0 +1,127 @@
+{
+  "challan_id": "970ACB69",
+  "challan_dir": "data/challans/challan_970ACB69_CLEAN",
+  "source_image": "data/extracted/extracted_1782217958_0.jpg",
+  "verdict": "CLEAN",
+  "violations": [],
+  "fine_total": 0,
+  "registration_number": "41104",
+  "vlm_description": "The image shows a man wearing a helmet and riding a motor scooter down a street. He is wearing a black outfit and the scooter has a number plate.",
+  "vlm_evidence": [
+    "VLM caption (on full frame): The image shows a man wearing a helmet and riding a motor scooter down a street. He is wearing a black outfit and the sc"
+  ],
+  "detections": [
+    {
+      "class_id": 0,
+      "raw_class_name": "helmet",
+      "class_name": "helmet",
+      "confidence": 0.43352413177490234,
+      "box": [
+        65,
+        0,
+        92,
+        21
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.3586116433143616,
+      "box": [
+        63,
+        132,
+        88,
+        152
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "41104",
+    "ocr_confidence": 0.5902918517589569,
+    "char_count": 5,
+    "latency_ms": 146.04,
+    "characters": [
+      {
+        "char": "1",
+        "conf": 0.950351893901825,
+        "x": 0.41810191761363635,
+        "y": 0.6632310793950007,
+        "bbox": [
+          11,
+          13,
+          15,
+          21
+        ]
+      },
+      {
+        "char": "0",
+        "conf": 0.9148079752922058,
+        "x": 0.6421704147801255,
+        "y": 0.6852776454045222,
+        "bbox": [
+          19,
+          14,
+          22,
+          21
+        ]
+      },
+      {
+        "char": "4",
+        "conf": 0.5094594955444336,
+        "x": 0.7360967289317738,
+        "y": 0.6870040893554688,
+        "bbox": [
+          22,
+          14,
+          25,
+          21
+        ]
+      },
+      {
+        "char": "1",
+        "conf": 0.4080279469490051,
+        "x": 0.5548786972508286,
+        "y": 0.3789002528557411,
+        "bbox": [
+          16,
+          7,
+          19,
+          12
+        ]
+      },
+      {
+        "char": "4",
+        "conf": 0.16881194710731506,
+        "x": 0.43438119599313446,
+        "y": 0.37910136809715855,
+        "bbox": [
+          12,
+          7,
+          15,
+          12
+        ]
+      }
+    ],
+    "conf_threshold": 0.15,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.15,
+        "plate_text": "41104",
+        "char_count": 5,
+        "ocr_confidence": 0.5902918517589569
+      }
+    ],
+    "plate_crop": "data/challans/challan_970ACB69_CLEAN/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_970ACB69_CLEAN/plate_ocr.jpg",
+    "status": "ok"
+  },
+  "no_helmet_crops": [],
+  "files": {
+    "original": "data/challans/challan_970ACB69_CLEAN/original.jpg",
+    "yolo_marked": "data/challans/challan_970ACB69_CLEAN/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_970ACB69_CLEAN/challan.md",
+    "plate_crop": "data/challans/challan_970ACB69_CLEAN/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_970ACB69_CLEAN/plate_ocr.jpg"
+  }
+}

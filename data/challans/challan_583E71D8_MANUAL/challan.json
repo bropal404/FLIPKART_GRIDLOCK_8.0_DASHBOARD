@@ -1,0 +1,37 @@
+{
+  "challan_id": "583E71D8",
+  "challan_dir": "data/challans/challan_583E71D8_MANUAL",
+  "source_image": null,
+  "verdict": "VIOLATION",
+  "entry_type": "MANUAL",
+  "violations": [
+    "Illegal Parking (Overtime)"
+  ],
+  "fine_total": 500,
+  "registration_number": "KA01Q6876",
+  "vehicle_type": "Car",
+  "date": "2026-06-23",
+  "time": "19:06",
+  "location": "Unknown Location",
+  "vlm_description": "",
+  "vlm_evidence": [
+    "Manually issued by enforcement officer"
+  ],
+  "detections": [],
+  "ocr": {
+    "plate_text": "KA01Q6876",
+    "ocr_confidence": null,
+    "char_count": 9,
+    "plate_crop": null,
+    "plate_annotated": null,
+    "status": "manual_entry"
+  },
+  "no_helmet_crops": [],
+  "files": {
+    "original": null,
+    "yolo_marked": null,
+    "challan_md": null,
+    "plate_crop": null,
+    "plate_ocr": null
+  }
+}

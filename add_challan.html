@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Manual Challan — GRIDLOCK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #2563EB;
+      --accent-light: #EFF6FF;
+      --accent-dark: #1D4ED8;
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #0F172A;
+      --text-muted: #64748B;
+      --red: #DC2626;
+      --green: #16A34A;
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 36px;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--text-muted); font-weight: 400; font-size: 13px; margin-left: 6px; }
+
+    .badge {
+      margin-left: auto;
+      background: #FEF3C7;
+      color: #92400E;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid #FDE68A;
+      letter-spacing: 0.5px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 680px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .card-header {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-header h1 i { color: var(--accent); }
+
+    .card-header p {
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      margin-top: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 13px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--bg);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+      background: #fff;
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .offense-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      border: 1.5px solid var(--accent);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.12s;
+      user-select: none;
+    }
+
+    .chip.selected {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .chip:hover { opacity: 0.85; }
+
+    .chip i { font-size: 11px; }
+
+    .fine-display {
+      margin-top: 12px;
+      background: var(--accent-light);
+      border: 1px solid #BFDBFE;
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--accent-dark);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fine-display .amount { font-size: 18px; font-weight: 700; }
+
+    .image-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      background: var(--bg);
+    }
+
+    .image-upload-area:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .image-upload-area i { font-size: 24px; color: var(--text-muted); margin-bottom: 8px; }
+    .image-upload-area p { font-size: 13px; color: var(--text-muted); }
+    .image-upload-area strong { color: var(--accent); }
+
+    #image-preview {
+      margin-top: 12px;
+      display: none;
+    }
+
+    #image-preview img {
+      max-height: 200px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .actions {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 10px 22px;
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .btn-ghost {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { background: var(--border); }
+
+    .alert {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert-success { background: #F0FDF4; border: 1px solid #86EFAC; color: var(--green); display: flex; }
+    .alert-error   { background: #FEF2F2; border: 1px solid #FCA5A5; color: var(--red);   display: flex; }
+
+    #file-input { display: none; }
+
+    input[type="file"] { display: none; }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">GRIDLOCK <span>Traffic Enforcement System</span></div>
+  <div class="badge">⚠ RESTRICTED ACCESS</div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h1><i class="fa-solid fa-file-circle-plus"></i> Add Manual Challan</h1>
+    <p>Issue a challan for violations not automatically detected by the AI pipeline. This record will be created in the database and appear in the Challans tab.</p>
+  </div>
+
+  <div class="section-label">Offense Details</div>
+
+  <div class="form-group">
+    <label>Violation Type</label>
+    <div class="offense-chips" id="offense-chips">
+      <div class="chip" data-offense="Illegal Parking (Overtime)" data-fine="500" onclick="toggleChip(this)">
+        <i class="fa-solid fa-square-parking"></i> Illegal Parking (Overtime)
+      </div>
+      <div class="chip" data-offense="Red Line Crossing" data-fine="1000" onclick="toggleChip(this)">
+        <i class="fa-solid fa-traffic-light"></i> Red Line Crossing
+      </div>
+      <div class="chip" data-offense="Stop Line Violation" data-fine="500" onclick="toggleChip(this)">
+        <i class="fa-solid fa-octagon-xmark"></i> Stop Line Violation
+      </div>
+      <div class="chip" data-offense="No Helmet" data-fine="1000" onclick="toggleChip(this)">
+        <i class="fa-solid fa-hard-hat"></i> No Helmet
+      </div>
+      <div class="chip" data-offense="Triple Riding" data-fine="2000" onclick="toggleChip(this)">
+        <i class="fa-solid fa-motorcycle"></i> Triple Riding
+      </div>
+      <div class="chip" data-offense="No Seatbelt" data-fine="1000" onclick="toggleChip(this)">
+        <i class="fa-solid fa-car-side"></i> No Seatbelt
+      </div>
+    </div>
+  </div>
+
+  <div class="fine-display" id="fine-display">
+    <i class="fa-solid fa-indian-rupee-sign"></i>
+    Total Fine: <span class="amount" id="fine-amount">0</span>
+  </div>
+
+  <div class="section-label">Vehicle Details</div>
+
+  <div class="row">
+    <div class="form-group">
+      <label>Vehicle Registration Number</label>
+      <input type="text" id="reg-number" placeholder="e.g. KA 01 AB 1234" />
+    </div>
+    <div class="form-group">
+      <label>Vehicle Type</label>
+      <select id="vehicle-type">
+        <option value="Two-Wheeler">Two-Wheeler</option>
+        <option value="Car" selected>Car</option>
+        <option value="Auto-Rickshaw">Auto-Rickshaw</option>
+        <option value="Truck">Truck</option>
+        <option value="Bus">Bus</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section-label">Incident Details</div>
+
+  <div class="row">
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="incident-date" />
+    </div>
+    <div class="form-group">
+      <label>Time</label>
+      <input type="time" id="incident-time" />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Location</label>
+    <input type="text" id="location" placeholder="e.g. MG Road, Near Junction 4, Bangalore" />
+  </div>
+
+  <div class="form-group">
+    <label>Officer Notes <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
+    <textarea id="notes" placeholder="Add any additional observations or evidence notes..."></textarea>
+  </div>
+
+  <div class="section-label">Evidence Photo <span style="color:var(--text-muted);font-weight:400;">(optional)</span></div>
+
+  <div class="image-upload-area" onclick="document.getElementById('file-input').click()" id="drop-zone">
+    <i class="fa-solid fa-camera"></i>
+    <p><strong>Click to upload</strong> or drag & drop a photo</p>
+    <p style="margin-top:4px;font-size:11px;">JPG, PNG up to 10MB</p>
+  </div>
+  <input type="file" id="file-input" accept="image/*" onchange="handleFileSelect(this)" />
+
+  <div id="image-preview">
+    <img id="preview-img" src="" alt="Preview" />
+  </div>
+
+  <div id="alert-success" class="alert alert-success">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="success-msg">Challan created successfully!</span>
+  </div>
+  <div id="alert-error" class="alert alert-error">
+    <i class="fa-solid fa-circle-xmark"></i>
+    <span id="error-msg">Something went wrong.</span>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-ghost" onclick="resetForm()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+    <button class="btn btn-primary" id="submit-btn" onclick="submitChallan()">
+      <i class="fa-solid fa-file-circle-plus"></i> Issue Challan
+    </button>
+  </div>
+</div>
+
+<script>
+  // Pre-fill today's date and current time
+  const now = new Date();
+  document.getElementById('incident-date').value = now.toISOString().split('T')[0];
+  document.getElementById('incident-time').value = now.toTimeString().slice(0,5);
+
+  const FINES = {
+    'Illegal Parking (Overtime)': 500,
+    'Red Line Crossing': 1000,
+    'Stop Line Violation': 500,
+    'No Helmet': 1000,
+    'Triple Riding': 2000,
+    'No Seatbelt': 1000,
+  };
+
+  let selectedFile = null;
+
+  function toggleChip(el) {
+    el.classList.toggle('selected');
+    updateFine();
+  }
+
+  function updateFine() {
+    const chips = document.querySelectorAll('.chip.selected');
+    let total = 0;
+    chips.forEach(c => { total += parseInt(c.dataset.fine || 0); });
+    document.getElementById('fine-amount').textContent = total;
+    document.getElementById('fine-display').style.display = total > 0 ? 'flex' : 'none';
+  }
+
+  // Drag and drop
+  const dropZone = document.getElementById('drop-zone');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'var(--accent)'; });
+  dropZone.addEventListener('dragleave', () => { dropZone.style.borderColor = 'var(--border)'; });
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.style.borderColor = 'var(--border)';
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) previewFile(file);
+  });
+
+  function handleFileSelect(input) {
+    if (input.files[0]) previewFile(input.files[0]);
+  }
+
+  function previewFile(file) {
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('preview-img').src = e.target.result;
+      document.getElementById('image-preview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function resetForm() {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    updateFine();
+    document.getElementById('reg-number').value = '';
+    document.getElementById('location').value = '';
+    document.getElementById('notes').value = '';
+    document.getElementById('image-preview').style.display = 'none';
+    document.getElementById('file-input').value = '';
+    document.getElementById('alert-success').style.display = 'none';
+    document.getElementById('alert-error').style.display = 'none';
+    selectedFile = null;
+  }
+
+  async function submitChallan() {
+    const chips = document.querySelectorAll('.chip.selected');
+    if (!chips.length) {
+      showError('Please select at least one violation type.');
+      return;
+    }
+
+    const violations = Array.from(chips).map(c => c.dataset.offense);
+    const fine = violations.reduce((s, v) => s + (FINES[v] || 0), 0);
+    const regNum = document.getElementById('reg-number').value.trim() || 'Not Provided';
+    const vehicleType = document.getElementById('vehicle-type').value;
+    const date = document.getElementById('incident-date').value;
+    const time = document.getElementById('incident-time').value;
+    const location = document.getElementById('location').value.trim() || 'Unknown Location';
+    const notes = document.getElementById('notes').value.trim();
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Issuing...';
+
+    document.getElementById('alert-success').style.display = 'none';
+    document.getElementById('alert-error').style.display = 'none';
+
+    try {
+      const formData = new FormData();
+      formData.append('violations', JSON.stringify(violations));
+      formData.append('fine_total', fine);
+      formData.append('registration_number', regNum);
+      formData.append('vehicle_type', vehicleType);
+      formData.append('date', date);
+      formData.append('time', time);
+      formData.append('location', location);
+      formData.append('notes', notes);
+      if (selectedFile) formData.append('image', selectedFile);
+
+      const resp = await fetch('/api/add_challan', { method: 'POST', body: formData });
+      const data = await resp.json();
+
+      if (data.status === 'success') {
+        document.getElementById('success-msg').textContent =
+          `Challan ${data.challan_id} issued successfully! Fine: ₹${fine}`;
+        document.getElementById('alert-success').style.display = 'flex';
+        resetForm();
+      } else {
+        showError(data.error || 'Unknown error.');
+      }
+    } catch(e) {
+      showError('Network error: ' + e.message);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-file-circle-plus"></i> Issue Challan';
+    }
+  }
+
+  function showError(msg) {
+    document.getElementById('error-msg').textContent = msg;
+    document.getElementById('alert-error').style.display = 'flex';
+  }
+
+  // Initial fine display hidden
+  document.getElementById('fine-display').style.display = 'none';
+</script>
+</body>
+</html>

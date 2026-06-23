@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRIDLOCK Engine</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        :root {
+            --bg-base: #f2f3f7;
+            --bg-surface: #ffffff;
+            --bg-elevated: #ffffff;
+            --bg-hover: #f0f1f8;
+            --accent: #c8960a;
+            --accent-dim: rgba(200, 150, 10, 0.08);
+            --accent-glow: rgba(200, 150, 10, 0.20);
+            --text-primary: #0d0d14;
+            --text-secondary: #5c5c78;
+            --text-muted: #a0a0bc;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-accent: rgba(200, 150, 10, 0.40);
+            --red: #dc2626;
+            --green: #16a34a;
+            --sidebar-w: 240px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-base);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        /* ── SIDEBAR ─────────────────────────────── */
+        .sidebar {
+            width: var(--sidebar-w);
+            flex-shrink: 0;
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-text {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            color: var(--text-secondary);
+            letter-spacing: 0.04em;
+            margin-top: 1px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            margin-left: auto;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px var(--green);
+            animation: pulse-dot 2.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 5px var(--green);
+            }
+
+            50% {
+                opacity: 0.5;
+                box-shadow: 0 0 12px var(--green);
+            }
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .nav-category {
+            padding: 16px 20px 5px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 20px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.14s ease;
+            border-left: 2px solid transparent;
+            font-weight: 500;
+            font-size: 13px;
+            user-select: none;
+        }
+
+        .nav-item i {
+            width: 16px;
+            font-size: 13px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+            background: var(--accent-dim);
+            border-left-color: var(--accent);
+        }
+
+        .sidebar-footer {
+            padding: 14px 20px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .sidebar-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .sidebar-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── MAIN ─────────────────────────────── */
+        .main-content {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(242, 243, 247, 0.90);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+            padding: 0 32px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .page-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .page-title span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .content-body {
+            padding: 28px 32px;
+            flex: 1;
+        }
+
+        /* ── SECTIONS ─────────────────────────── */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* ── BUTTONS ─────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            transition: all 0.14s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: #e6b800;
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: var(--red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* ── UPLOAD ─────────────────────────── */
+        .upload-zone {
+            border: 1px dashed var(--border-accent);
+            border-radius: 10px;
+            padding: 72px 40px;
+            text-align: center;
+            cursor: pointer;
+            background: var(--bg-elevated);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        .upload-icon {
+            font-size: 36px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .upload-zone h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .upload-zone p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        .format-chips {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .format-chip {
+            background: var(--bg-base);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* ── STATUS CARDS ─────────────────────── */
+        .task-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .task-header {
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-name {
+            font-weight: 600;
+            font-size: 13px;
+            flex: 1;
+        }
+
+        .task-progress-text {
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        .progress-bar-wrap {
+            height: 2px;
+            background: var(--border);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.4s ease;
+        }
+
+        .task-logs {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 12px 18px;
+            line-height: 1.7;
+        }
+
+        /* ── EXTRACTED GRID ─────────────────── */
+        .extracted-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 12px;
+        }
+
+        .extracted-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-elevated);
+            position: relative;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .extracted-label {
+            position: absolute;
+            top: 9px;
+            left: 9px;
+            background: var(--red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .extracted-item img {
+            width: 100%;
+            display: block;
+        }
+
+        /* ── VIOLATION CARDS ─────────────────── */
+        .violation-card {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-elevated);
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .violation-media {
+            width: 210px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .violation-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .violation-media-label {
+            position: absolute;
+            top: 9px;
+            left: 9px;
+            background: var(--red);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .violation-info {
+            padding: 18px;
+            flex: 1;
+        }
+
+        .violation-info h3 {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .vlm-caption {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            white-space: pre-wrap;
+            line-height: 1.65;
+        }
+
+        .plate-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 8px;
+        }
+
+        /* ── CHALLAN CARDS ─────────────────── */
+        .challan-card {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-elevated);
+            margin-bottom: 14px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .challan-media {
+            width: 210px;
+            flex-shrink: 0;
+        }
+
+        .challan-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .challan-body {
+            padding: 18px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .challan-meta {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .challan-meta-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .challan-meta-text i {
+            width: 14px;
+            text-align: center;
+            margin-right: 5px;
+        }
+
+        .challan-actions {
+            display: flex;
+            gap: 7px;
+            flex-shrink: 0;
+            align-items: flex-start;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 11px;
+            background: var(--bg-base);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.14s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--border-accent);
+        }
+
+        .form-group textarea {
+            height: 58px;
+            resize: none;
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .vlm-description {
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+
+        .vlm-description label {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .vlm-description p {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .ocr-crop-img {
+            max-height: 54px;
+            display: block;
+            margin-top: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        /* ── ABOUT ─────────────────────────── */
+        .about-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .about-section p {
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin-bottom: 18px;
+        }
+
+        .mermaid-wrap {
+            background: var(--bg-base);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        /* ── EMPTY STATE ─────────────────────── */
+        .empty-state {
+            padding: 64px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+        }
+
+        /* ── SCROLLBARS ─────────────────────── */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        /* ── MAP / HEATMAP ──────────────────── */
+        .map-layout {
+            display: flex;
+            gap: 20px;
+            height: calc(100vh - 120px);
+        }
+        #violation-map {
+            flex: 1;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            z-index: 10;
+        }
+        .map-sidebar {
+            width: 280px;
+            background: var(--bg-surface);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+        .map-sidebar-header {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+        }
+        .insight-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .insight-card {
+            background: var(--bg-base);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .insight-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 4px;
+        }
+        .insight-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+        .filter-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .filter-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 5px;
+        }
+        .filter-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .filter-label input {
+            accent-color: var(--accent);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+        
+        .map-legend {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+
+        /* ── RESPONSIVE ─────────────────────── */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .violation-card,
+            .challan-card {
+                flex-direction: column;
+            }
+
+            .violation-media,
+            .challan-media {
+                width: 100%;
+                height: 200px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-body {
+                padding: 20px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── SIDEBAR ──────────────────────────────── -->
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">GL</div>
+            <div>
+                <div class="brand-text">Gridlock</div>
+                <div class="brand-sub">Detection Engine</div>
+            </div>
+            <div class="status-dot" title="System Online"></div>
+        </div>
+
+        <div class="sidebar-nav">
+
+            <div class="nav-category">Detection</div>
+            <div class="nav-item active" onclick="switchTab('upload', this)">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Media Input
+            </div>
+            <div class="nav-item" onclick="switchTab('status', this)">
+                <i class="fa-solid fa-circle-notch"></i> Live Processing
+            </div>
+            <div class="nav-item" onclick="switchTab('results', this)">
+                <i class="fa-solid fa-images"></i> Extracted Crops
+            </div>
+
+            <div class="nav-category">Analysis</div>
+            <div class="nav-item" onclick="switchTab('vlm', this)">
+                <i class="fa-solid fa-eye"></i> VLM Analysis
+            </div>
+            <div class="nav-item" onclick="switchTab('ocr', this)">
+                <i class="fa-solid fa-barcode"></i> OCR / ANPR
+            </div>
+            <div class="nav-item" onclick="switchTab('seatbelt', this)">
+                <i class="fa-solid fa-car-side"></i> Seatbelt CNN
+            </div>
+
+            <div class="nav-category">Enforcement</div>
+            <div class="nav-item" onclick="switchTab('challans', this)">
+                <i class="fa-solid fa-file-invoice"></i> Challans
+            </div>
+            <div class="nav-item" onclick="switchTab('mapview', this)">
+                <i class="fa-solid fa-map-location-dot"></i> Violation Heatmap
+            </div>
+
+            <div class="nav-category">System</div>
+            <div class="nav-item" onclick="switchTab('about', this)">
+                <i class="fa-solid fa-circle-info"></i> About
+            </div>
+
+        </div>
+
+        <div class="sidebar-footer">
+            GOPAKART &middot; <a href="mailto:manya.jain@students.iiit.ac.in">Contact</a>
+        </div>
+    </nav>
+
+    <!-- ── MAIN ──────────────────────────────── -->
+    <div class="main-content">
+
+        <div class="topbar">
+            <div class="page-title" id="page-title">Media Input <span>/ Upload traffic footage</span></div>
+            <div class="topbar-actions">
+                <button class="btn btn-ghost" onclick="fetchExtracted()">
+                    <i class="fa-solid fa-rotate"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <div class="content-body">
+
+            <!-- MAP VIEW -->
+            <section id="mapview" class="section">
+                <div class="map-layout">
+                    <div id="violation-map"></div>
+                    <div class="map-sidebar">
+                        <div class="map-sidebar-header">Insights & Filters</div>
+                        
+                        <div class="insight-cards">
+                            <div class="insight-card">
+                                <div class="insight-value" id="insight-total">0</div>
+                                <div class="insight-label">Total Violations</div>
+                            </div>
+                            <div class="insight-card">
+                                <div class="insight-value" style="color: var(--red);">High</div>
+                                <div class="insight-label">Risk Level (Jubilee Hills)</div>
+                            </div>
+                            <div class="insight-card">
+                                <div class="insight-value">Helmet</div>
+                                <div class="insight-label">Most Common Offense</div>
+                            </div>
+                        </div>
+
+                        <div class="filter-section">
+                            <div class="filter-header">Filter by Type</div>
+                            <label class="filter-label"><input type="checkbox" id="filter-helmet" checked onchange="applyMapFilters()"> Helmet Violation</label>
+                            <label class="filter-label"><input type="checkbox" id="filter-triple" checked onchange="applyMapFilters()"> Triple Riding</label>
+                            <label class="filter-label"><input type="checkbox" id="filter-seatbelt" checked onchange="applyMapFilters()"> Seatbelt Violation</label>
+                            <label class="filter-label"><input type="checkbox" id="filter-other" checked onchange="applyMapFilters()"> Other / Multi</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UPLOAD -->
+            <section id="upload" class="section active">
+                <div class="upload-zone" id="upload-drop-zone" onclick="document.getElementById('file-input').click()">
+                    <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h3>Upload Traffic Media</h3>
+                    <p>Drag &amp; drop footage or click to browse</p>
+                    <div class="format-chips">
+                        <span class="format-chip">JPG</span>
+                        <span class="format-chip">PNG</span>
+                        <span class="format-chip">WEBP</span>
+                        <span class="format-chip">MP4</span>
+                        <span class="format-chip">AVI</span>
+                        <span class="format-chip">MOV</span>
+                    </div>
+                    <button class="btn btn-primary"><i class="fa-solid fa-folder-open"></i> Select File</button>
+                    <input type="file" id="file-input" style="display:none;"
+                        accept="image/*,video/mp4,video/avi,video/quicktime,.avi,.mov" onchange="handleUpload(event)">
+                </div>
+            </section>
+
+            <!-- LIVE PROCESSING -->
+            <section id="status" class="section">
+                <div id="status-container">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-circle-notch"></i>
+                        <p>No active processing tasks</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXTRACTED CROPS -->
+            <section id="results" class="section">
+                <div class="extracted-grid" id="extracted-container">
+                    <div class="empty-state" style="grid-column:1/-1">
+                        <i class="fa-solid fa-images"></i>
+                        <p>No extracted crops yet</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VLM ANALYSIS -->
+            <section id="vlm" class="section">
+                <div id="vlm-container">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-eye"></i>
+                        <p>No VLM violations found</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OCR / ANPR -->
+            <section id="ocr" class="section">
+                <div id="ocr-container">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-barcode"></i>
+                        <p>No OCR violations found</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEATBELT CNN -->
+            <section id="seatbelt" class="section">
+                <div id="seatbelt-container">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-car-side"></i>
+                        <p>No seatbelt violations detected by CNN</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHALLANS -->
+            <section id="challans" class="section">
+                <div id="challans-container">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-file-invoice"></i>
+                        <p>No challans generated yet</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT -->
+            <section id="about" class="section">
+                <div class="about-section">
+                    <div class="section-header">
+                        <h2>About GRIDLOCK Engine</h2>
+                        <p>AI-powered traffic monitoring, violation detection, and automated challan generation
+                            platform.</p>
+                    </div>
+
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+    </script>
+
+    <script>
+        const pageTitles = {
+            upload: ['Media Input', 'Upload traffic footage'],
+            status: ['Live Processing', 'Real-time pipeline status'],
+            results: ['Extracted Crops', 'YOLO detection outputs'],
+            vlm: ['VLM Analysis', 'Florence-2 verification results'],
+            ocr: ['OCR / ANPR', 'License plate recognition'],
+            seatbelt: ['Seatbelt CNN', 'MobileNetV3 detection'],
+            challans: ['Challans', 'Enforcement records'],
+            mapview: ['Violation Heatmap', 'Geospatial visualization'],
+            about: ['About', 'System architecture'],
+        };
+
+        function switchTab(tabId, el) {
+            if (el) {
+                document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+            } else {
+                // Find matching nav item
+                document.querySelectorAll('.nav-item').forEach(b => {
+                    b.classList.remove('active');
+                    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId)) {
+                        b.classList.add('active');
+                    }
+                });
+            }
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            const [title, sub] = pageTitles[tabId] || [tabId, ''];
+            document.getElementById('page-title').innerHTML = title + ' <span>/ ' + sub + '</span>';
+            if (tabId === 'status') pollStatus();
+            if (['results', 'vlm', 'ocr', 'seatbelt', 'challans', 'mapview'].includes(tabId)) fetchExtracted();
+            if (tabId === 'mapview' && typeof map !== 'undefined' && map) {
+                setTimeout(() => map.invalidateSize(), 100);
+            }
+        }
+
+        async function handleUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('file', file);
+            switchTab('status');
+            try {
+                await fetch('/api/upload', { method: 'POST', body: formData });
+                pollStatus();
+            } catch (err) {
+                console.error(err);
+                alert('Upload failed.');
+            }
+            event.target.value = '';
+        }
+
+        let statusInterval = null;
+        async function pollStatus() {
+            if (statusInterval) clearInterval(statusInterval);
+            const fetchAndUpdate = async () => {
+                try {
+                    const res = await fetch('/api/status', { cache: 'no-store' });
+                    const tasks = await res.json();
+                    const container = document.getElementById('status-container');
+                    if (tasks.length === 0) {
+                        container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-circle-notch"></i><p>No active processing tasks</p></div>';
+                        return;
+                    }
+                    container.innerHTML = tasks.map(t => {
+                        const logsHtml = (t.logs || []).map(log => '<div>' + log + '</div>').join('');
+                        return '<div class="task-card">' +
+                            '<div class="task-header">' +
+                            '<i class="fa-solid fa-spinner fa-spin" style="color:var(--accent);font-size:12px;flex-shrink:0;"></i>' +
+                            '<div class="task-name">' + t.filename + '</div>' +
+                            '<div class="task-progress-text">' + t.progress + '% &mdash; ' + t.status + '</div>' +
+                            '</div>' +
+                            '<div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:' + t.progress + '%"></div></div>' +
+                            '<div class="task-logs" id="logs-' + t.id + '">' + logsHtml + '</div>' +
+                            '</div>';
+                    }).join('');
+                    tasks.forEach(t => {
+                        const lb = document.getElementById('logs-' + t.id);
+                        if (lb) lb.scrollTop = lb.scrollHeight;
+                    });
+                } catch (e) { console.error(e); }
+            };
+            fetchAndUpdate();
+            statusInterval = setInterval(fetchAndUpdate, 1500);
+        }
+
+        async function fetchExtracted() {
+            try {
+                const res = await fetch('/api/extracted');
+                const images = await res.json();
+                const container = document.getElementById('extracted-container');
+                const vlmContainer = document.getElementById('vlm-container');
+                const ocrContainer = document.getElementById('ocr-container');
+
+                if (images.length === 0) {
+                    container.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-images"></i><p>No extracted crops yet</p></div>';
+                    vlmContainer.innerHTML = '<div class="empty-state"><i class="fa-solid fa-eye"></i><p>No VLM violations found</p></div>';
+                    ocrContainer.innerHTML = '<div class="empty-state"><i class="fa-solid fa-barcode"></i><p>No OCR violations found</p></div>';
+                } else {
+                    container.innerHTML = images.map(img =>
+                        '<div class="extracted-item">' +
+                        '<div class="extracted-label">' + img.label + '</div>' +
+                        '<img src="/' + img.path + '">' +
+                        '</div>'
+                    ).join('');
+
+                    const violations = images.filter(img => img.verdict === 'VIOLATION');
+
+                    vlmContainer.innerHTML = violations.length
+                        ? violations.map(img => {
+                            const loc = img.location;
+                            const locHtml = (loc && loc !== 'Hyderabad (default,no geo tag in image)' && loc !== 'Not Found')
+                                ? '<div style="font-size:11px;margin-bottom:8px;color:var(--text-secondary);"><i class="fa-solid fa-location-dot" style="color:var(--accent);margin-right:4px;"></i>' + loc + '</div>'
+                                : '<div style="font-size:11px;margin-bottom:8px;color:var(--text-muted);"><i class="fa-solid fa-location-dot" style="margin-right:4px;"></i>Hyderabad (default,no geo tag in image)</div>';
+                            return '<div class="violation-card">' +
+                                '<div class="violation-media"><div class="violation-media-label">' + img.label + '</div><img src="/' + img.path + '"></div>' +
+                                '<div class="violation-info"><h3><i class="fa-solid fa-eye"></i> &nbsp;Florence-2 VLM</h3>' +
+                                locHtml +
+                                '<div class="vlm-caption">' + (img.vlm_caption || 'No output') + '</div></div>' +
+                                '</div>';
+                        }).join('')
+                        : '<div class="empty-state"><i class="fa-solid fa-eye"></i><p>No VLM violations found</p></div>';
+
+                    ocrContainer.innerHTML = violations.length
+                        ? violations.map(img => {
+                            const ocrImg = img.ocr_crop ? '<img src="/' + img.ocr_crop + '" class="ocr-crop-img">' : '';
+                            const loc = img.location;
+                            const locHtml = (loc && loc !== 'Hyderabad (default,no geo tag in image)' && loc !== 'Not Found')
+                                ? '<div style="font-size:11px;margin-bottom:8px;color:var(--text-secondary);"><i class="fa-solid fa-location-dot" style="color:var(--accent);margin-right:4px;"></i>' + loc + '</div>'
+                                : '<div style="font-size:11px;margin-bottom:8px;color:var(--text-muted);"><i class="fa-solid fa-location-dot" style="margin-right:4px;"></i>Hyderabad (default,no geo tag in image)</div>';
+                            return '<div class="violation-card">' +
+                                '<div class="violation-media"><div class="violation-media-label">' + img.label + '</div><img src="/' + img.path + '"></div>' +
+                                '<div class="violation-info"><h3><i class="fa-solid fa-barcode"></i> &nbsp;ANPR OCR Engine</h3>' +
+                                locHtml +
+                                ocrImg +
+                                '<div class="plate-number">' + (img.ocr_plate || 'Number not visible') + '</div>' +
+                                '</div></div>';
+                        }).join('')
+                        : '<div class="empty-state"><i class="fa-solid fa-barcode"></i><p>No OCR violations found</p></div>';
+                }
+
+                fetch('/api/seatbelt')
+                    .then(r => r.json())
+                    .then(imgs => {
+                        const sb = document.getElementById('seatbelt-container');
+                        if (!imgs.length) {
+                            sb.innerHTML = '<div class="empty-state"><i class="fa-solid fa-car-side"></i><p>No seatbelt violations detected by CNN</p></div>';
+                            return;
+                        }
+                        sb.innerHTML = imgs.map(img => {
+                            const ocrImg = img.ocr_crop ? '<img src="/' + img.ocr_crop + '" class="ocr-crop-img">' : '';
+                            return '<div class="violation-card">' +
+                                '<div class="violation-media"><div class="violation-media-label">' + img.label + '</div><img src="/' + img.path + '"></div>' +
+                                '<div class="violation-info">' +
+                                '<h3><i class="fa-solid fa-car-side"></i> &nbsp;Seatbelt CNN</h3>' +
+                                '<p style="color:var(--red);font-weight:600;font-size:13px;margin-bottom:10px;">' + img.violations.join(' &middot; ') +
+                                ' &nbsp;<span style="color:var(--text-secondary);font-weight:400;">(Prob worn: ' + (img.prob_worn * 100).toFixed(1) + '%)</span></p>' +
+                                '<h3 style="margin-top:10px;"><i class="fa-solid fa-barcode"></i> &nbsp;OCR Result</h3>' +
+                                ocrImg +
+                                '<div class="plate-number">' + (img.ocr_plate || 'Number not visible') + '</div>' +
+                                '</div></div>';
+                        }).join('');
+                    });
+
+                fetch('/api/challans')
+                    .then(r => r.json())
+                    .then(challans => {
+                        const cc = document.getElementById('challans-container');
+                        if (!challans.length) {
+                            cc.innerHTML = '<div class="empty-state"><i class="fa-solid fa-file-invoice"></i><p>No challans generated yet</p></div>';
+                            updateMap([]);
+                            return;
+                        }
+                        window.allChallans = challans;
+                        applyMapFilters();
+                        cc.innerHTML = challans.map(c => {
+                            const ocrImg = c.ocr_crop ? '<img src="/' + c.ocr_crop + '" class="ocr-crop-img">' : '';
+                            const loc = c.location || 'Hyderabad (default,no geo tag in image)';
+                            const locIsFound = loc !== 'Hyderabad (default,no geo tag in image)' && loc !== 'Not Found' && loc !== '';
+                            const locStyle = locIsFound ? 'color:var(--text-secondary);' : 'color:var(--text-muted);';
+                            const locIconStyle = locIsFound ? 'color:var(--accent);margin-right:5px;' : 'margin-right:5px;';
+                            return '<div class="challan-card" id="challan-' + c.filename + '">' +
+                                '<div class="challan-media"><img src="/' + c.image_url + '"></div>' +
+                                '<div class="challan-body">' +
+                                '<div class="challan-meta">' +
+                                '<div class="challan-meta-text">' +
+                                '<div><i class="fa-regular fa-calendar"></i>' + (c.date || 'Not Found') + ' &nbsp;<i class="fa-regular fa-clock"></i>' + (c.time || 'Not Found') + '</div>' +
+                                '<div style="' + locStyle + '"><i class="fa-solid fa-location-dot" style="' + locIconStyle + '"></i>' + loc + '</div>' +
+                                '</div>' +
+                                '<div class="challan-actions">' +
+                                '<button class="btn btn-ghost" onclick="updateChallan(\'' + c.filename + '\')"><i class="fa-solid fa-floppy-disk"></i> Save</button>' +
+                                '<button class="btn btn-ghost" style="color:var(--accent);" onclick="generatePDF(\'' + c.filename + '\', this)"><i class="fa-solid fa-file-pdf"></i> Generate PDF</button>' +
+                                '<button class="btn btn-danger" onclick="deleteChallan(\'' + c.filename + '\')"><i class="fa-solid fa-trash"></i></button>' +
+                                '</div></div>' +
+                                '<div class="form-grid">' +
+                                '<div class="form-group"><label>Vehicle Number (OCR)</label><input type="text" id="plate-' + c.filename + '" value="' + (c.ocr_plate || '') + '">' + ocrImg + '</div>' +
+                                '<div class="form-group"><label>Violations</label><textarea id="violation-' + c.filename + '">' + (c.violations || []).join(', ') + '</textarea></div>' +
+                                '</div>' +
+                                '<div class="vlm-description"><label>VLM Context</label><p>' + (c.vlm_caption || 'N/A') + '</p></div>' +
+                                '</div></div>';
+                        }).join('');
+                    });
+
+            } catch (e) { console.error(e); }
+        }
+
+        function updateChallan(filename) {
+            const plate = document.getElementById('plate-' + filename).value;
+            const violations = document.getElementById('violation-' + filename).value.split(',').map(s => s.trim()).filter(Boolean);
+            fetch('/api/challans/' + filename, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ocr_plate: plate, violations })
+            }).then(r => r.json()).then(data => {
+                if (data.status === 'success') { alert('Challan updated.'); fetchExtracted(); }
+                else alert('Error: ' + data.error);
+            });
+        }
+
+        function deleteChallan(filename) {
+            if (!confirm('Delete this challan?')) return;
+            fetch('/api/challans/' + filename, { method: 'DELETE' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') { document.getElementById('challan-' + filename).remove(); fetchExtracted(); }
+                    else alert('Error: ' + data.error);
+                });
+        }
+
+        function generatePDF(filename, btnElement) {
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+            btnElement.disabled = true;
+
+            fetch('/api/challans/' + filename + '/pdf')
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to generate PDF'); });
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'Challan_' + filename + '.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    btnElement.innerHTML = originalText;
+                    btnElement.disabled = false;
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error generating PDF: ' + err.message);
+                    btnElement.innerHTML = originalText;
+                    btnElement.disabled = false;
+                });
+        }
+
+        // ── MAP LOGIC ──
+        let map;
+        let mapMarkers = [];
+        
+        function initMap() {
+            map = L.map('violation-map').setView([17.3850, 78.4867], 12);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(map);
+            
+            // Legend
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function (map) {
+                const div = L.DomUtil.create('div', 'map-legend');
+                div.innerHTML = `
+                    <div style="margin-bottom:6px;color:var(--text-muted);text-transform:uppercase;font-size:10px;letter-spacing:0.05em;">Violations</div>
+                    <div class="map-legend-item"><div class="legend-color" style="background:#dc2626;"></div> Helmet Violation</div>
+                    <div class="map-legend-item"><div class="legend-color" style="background:#ea580c;"></div> Triple Riding</div>
+                    <div class="map-legend-item"><div class="legend-color" style="background:#2563eb;"></div> Seatbelt Violation</div>
+                    <div class="map-legend-item"><div class="legend-color" style="background:#9333ea;"></div> Multi / Other</div>
+                `;
+                return div;
+            };
+            legend.addTo(map);
+        }
+        
+        function updateMap(challans) {
+            if (!map) initMap();
+            
+            // Clear existing markers
+            mapMarkers.forEach(m => map.removeLayer(m));
+            mapMarkers = [];
+            
+            const baseLat = 17.3850;
+            const baseLon = 78.4867;
+            
+            challans.forEach((c, idx) => {
+                // Assign color based on violations
+                let color = '#9333ea'; // purple for other/multi
+                const vStr = (c.violations || []).join(' ').toLowerCase();
+                if (vStr.includes('helmet')) color = '#dc2626'; // red
+                else if (vStr.includes('triple')) color = '#ea580c'; // orange
+                else if (vStr.includes('seatbelt')) color = '#2563eb'; // blue
+                
+                // Add a small deterministic offset to base Hyderabad coordinates based on filename hash to spread them out
+                let hash = 0;
+                for (let i = 0; i < c.filename.length; i++) hash = ((hash << 5) - hash) + c.filename.charCodeAt(i);
+                const latOffset = (Math.abs(hash) % 1000) / 10000 - 0.05;
+                const lonOffset = (Math.abs(hash >> 2) % 1000) / 10000 - 0.05;
+                
+                const lat = baseLat + latOffset;
+                const lon = baseLon + lonOffset;
+                
+                const marker = L.circleMarker([lat, lon], {
+                    radius: 8,
+                    fillColor: color,
+                    color: '#fff',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+                
+                marker.bindPopup(`
+                    <div style="font-family:'Inter',sans-serif;">
+                        <strong>${c.ocr_plate || 'Unknown Vehicle'}</strong><br>
+                        <span style="color:#666;font-size:11px;">${(c.violations || []).join(', ')}</span><br>
+                        <a href="#" onclick="switchTab('challans'); document.getElementById('challan-${c.filename}').scrollIntoView(); return false;" style="color:var(--accent);font-size:11px;font-weight:600;text-decoration:none;">View Challan</a>
+                    </div>
+                `);
+                
+                mapMarkers.push(marker);
+            });
+        }
+
+        function applyMapFilters() {
+            if (!window.allChallans) return;
+            const showHelmet = document.getElementById('filter-helmet').checked;
+            const showTriple = document.getElementById('filter-triple').checked;
+            const showSeatbelt = document.getElementById('filter-seatbelt').checked;
+            const showOther = document.getElementById('filter-other').checked;
+
+            const filtered = window.allChallans.filter(c => {
+                const vStr = (c.violations || []).join(' ').toLowerCase();
+                if (vStr.includes('helmet') && showHelmet) return true;
+                if (vStr.includes('triple') && showTriple) return true;
+                if (vStr.includes('seatbelt') && showSeatbelt) return true;
+                if (!vStr.includes('helmet') && !vStr.includes('triple') && !vStr.includes('seatbelt') && showOther) return true;
+                return false;
+            });
+            
+            document.getElementById('insight-total').innerText = filtered.length;
+            updateMap(filtered);
+        }
+
+        fetchExtracted();
+    </script>
+</body>
+
+</html>

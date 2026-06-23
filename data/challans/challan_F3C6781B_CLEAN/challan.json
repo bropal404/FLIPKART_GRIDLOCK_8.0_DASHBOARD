@@ -1,0 +1,43 @@
+{
+  "challan_id": "F3C6781B",
+  "challan_dir": "data/challans/challan_F3C6781B_CLEAN",
+  "source_image": "data/extracted/extracted_1782153774_3.jpg",
+  "verdict": "CLEAN",
+  "violations": [],
+  "fine_total": 0,
+  "registration_number": "[PLATE NOT DETECTED]",
+  "vlm_description": "The image shows a man riding a motorcycle down a street at night, wearing a black outfit and a helmet. The street is illuminated by the street lights, and the man is silhouetted against the night sky.",
+  "vlm_evidence": [
+    "VLM caption (on full frame): The image shows a man riding a motorcycle down a street at night, wearing a black outfit and a helmet. The street is ill"
+  ],
+  "detections": [
+    {
+      "class_id": 0,
+      "raw_class_name": "helmet",
+      "class_name": "helmet",
+      "confidence": 0.25554898381233215,
+      "box": [
+        85,
+        56,
+        119,
+        100
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "[PLATE NOT DETECTED]",
+    "ocr_confidence": NaN,
+    "char_count": 0,
+    "plate_crop": null,
+    "plate_annotated": null,
+    "status": "plate_box_missing"
+  },
+  "no_helmet_crops": [],
+  "files": {
+    "original": "data/challans/challan_F3C6781B_CLEAN/original.jpg",
+    "yolo_marked": "data/challans/challan_F3C6781B_CLEAN/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_F3C6781B_CLEAN/challan.md",
+    "plate_crop": null,
+    "plate_ocr": null
+  }
+}

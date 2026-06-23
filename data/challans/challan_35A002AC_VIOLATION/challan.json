@@ -1,0 +1,74 @@
+{
+  "challan_id": "35A002AC",
+  "challan_dir": "data/challans/challan_35A002AC_VIOLATION",
+  "source_image": "data/extracted/extracted_1782155031_9.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Riding without helmet"
+  ],
+  "fine_total": 1000,
+  "registration_number": "[OCR FAILED]",
+  "vlm_description": "The image shows a man riding a motor scooter down a street, wearing a black shirt.",
+  "vlm_evidence": [
+    "YOLO detected: Riding without helmet",
+    "VLM caption (on crop): The image shows a man riding a motor scooter down a street, wearing a black shirt."
+  ],
+  "detections": [
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.8731902837753296,
+      "box": [
+        46,
+        20,
+        200,
+        495
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.3635389804840088,
+      "box": [
+        99,
+        378,
+        144,
+        422
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "[OCR FAILED]",
+    "ocr_confidence": NaN,
+    "char_count": 0,
+    "latency_ms": 176.55,
+    "characters": [],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "",
+        "char_count": 0,
+        "ocr_confidence": NaN
+      }
+    ],
+    "plate_crop": "data/challans/challan_35A002AC_VIOLATION/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_35A002AC_VIOLATION/plate_ocr.jpg",
+    "status": "ocr_failed"
+  },
+  "no_helmet_crops": [
+    {
+      "path": "data/challans/challan_35A002AC_VIOLATION/no_helmet_crop_00_conf0.87.jpg",
+      "confidence": 0.8731902837753296
+    }
+  ],
+  "files": {
+    "original": "data/challans/challan_35A002AC_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_35A002AC_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_35A002AC_VIOLATION/challan.md",
+    "plate_crop": "data/challans/challan_35A002AC_VIOLATION/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_35A002AC_VIOLATION/plate_ocr.jpg"
+  }
+}

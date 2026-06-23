@@ -1,0 +1,102 @@
+{
+  "challan_id": "B674D664",
+  "challan_dir": "data/challans/challan_B674D664_VIOLATION",
+  "source_image": "data/extracted/extracted_1782153774_7.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Riding without helmet"
+  ],
+  "fine_total": 1000,
+  "registration_number": "[OCR FAILED]",
+  "vlm_description": "The image shows a man riding a motorcycle down a street next to another motorbike. The man is wearing a grey t-shirt and black pants, and the street is lined with other vehicles.",
+  "vlm_evidence": [
+    "YOLO detected: Riding without helmet",
+    "VLM caption (on crop): The image shows a man riding a motorcycle down a street next to another motorbike. The man is wearing a grey t-shirt and"
+  ],
+  "detections": [
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.8664763569831848,
+      "box": [
+        28,
+        72,
+        186,
+        557
+      ]
+    },
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.5517610907554626,
+      "box": [
+        0,
+        0,
+        82,
+        142
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.30423635244369507,
+      "box": [
+        0,
+        36,
+        29,
+        79
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.25640979409217834,
+      "box": [
+        72,
+        426,
+        113,
+        472
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "[OCR FAILED]",
+    "ocr_confidence": NaN,
+    "char_count": 0,
+    "latency_ms": 145.28,
+    "characters": [],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "",
+        "char_count": 0,
+        "ocr_confidence": NaN
+      }
+    ],
+    "plate_crop": "data/challans/challan_B674D664_VIOLATION/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_B674D664_VIOLATION/plate_ocr.jpg",
+    "status": "ocr_failed"
+  },
+  "no_helmet_crops": [
+    {
+      "path": "data/challans/challan_B674D664_VIOLATION/no_helmet_crop_00_conf0.87.jpg",
+      "confidence": 0.8664763569831848
+    },
+    {
+      "path": "data/challans/challan_B674D664_VIOLATION/no_helmet_crop_01_conf0.55.jpg",
+      "confidence": 0.5517610907554626
+    }
+  ],
+  "files": {
+    "original": "data/challans/challan_B674D664_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_B674D664_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_B674D664_VIOLATION/challan.md",
+    "plate_crop": "data/challans/challan_B674D664_VIOLATION/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_B674D664_VIOLATION/plate_ocr.jpg"
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "challan_id": "609134D4",
+  "challan_dir": "data/challans/challan_609134D4_VIOLATION",
+  "source_image": "data/extracted/extracted_1782218814_4.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Riding without helmet"
+  ],
+  "fine_total": 1000,
+  "registration_number": "UP14FP8624",
+  "vlm_description": "",
+  "vlm_evidence": [
+    "YOLO detected: Riding without helmet"
+  ],
+  "detections": [
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.844935953617096,
+      "box": [
+        19,
+        0,
+        246,
+        390
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.5311034917831421,
+      "box": [
+        120,
+        290,
+        180,
+        328
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "UP14FP8624",
+    "ocr_confidence": 0.9398443102836609,
+    "char_count": 10,
+    "latency_ms": 146.24,
+    "characters": [
+      {
+        "char": "4",
+        "conf": 0.9663917422294617,
+        "x": 0.6191300392150879,
+        "y": 0.3845555877685547,
+        "bbox": [
+          46,
+          13,
+          52,
+          25
+        ]
+      },
+      {
+        "char": "4",
+        "conf": 0.954559862613678,
+        "x": 0.7551497459411621,
+        "y": 0.6694664001464844,
+        "bbox": [
+          56,
+          26,
+          64,
+          39
+        ]
+      },
+      {
+        "char": "P",
+        "conf": 0.9511730074882507,
+        "x": 0.31288154125213624,
+        "y": 0.6720357513427735,
+        "bbox": [
+          20,
+          27,
+          29,
+          40
+        ]
+      },
+      {
+        "char": "2",
+        "conf": 0.9485984444618225,
+        "x": 0.66063551902771,
+        "y": 0.6624955749511718,
+        "bbox": [
+          48,
+          27,
+          56,
+          39
+        ]
+      },
+      {
+        "char": "8",
+        "conf": 0.9465317130088806,
+        "x": 0.47904133796691895,
+        "y": 0.6615225219726563,
+        "bbox": [
+          34,
+          27,
+          41,
+          39
+        ]
+      },
+      {
+        "char": "F",
+        "conf": 0.9446486830711365,
+        "x": 0.6969560623168946,
+        "y": 0.38859381675720217,
+        "bbox": [
+          52,
+          12,
+          59,
+          26
+        ]
+      },
+      {
+        "char": "6",
+        "conf": 0.9423435926437378,
+        "x": 0.5709191799163819,
+        "y": 0.6639595794677734,
+        "bbox": [
+          42,
+          26,
+          49,
+          39
+        ]
+      },
+      {
+        "char": "1",
+        "conf": 0.9374122619628906,
+        "x": 0.5389214515686035,
+        "y": 0.38951973915100097,
+        "bbox": [
+          40,
+          13,
+          46,
+          25
+        ]
+      },
+      {
+        "char": "P",
+        "conf": 0.917498767375946,
+        "x": 0.45202322006225587,
+        "y": 0.38456680297851564,
+        "bbox": [
+          32,
+          13,
+          39,
+          25
+        ]
+      },
+      {
+        "char": "U",
+        "conf": 0.8892850279808044,
+        "x": 0.3570699214935303,
+        "y": 0.3845353698730469,
+        "bbox": [
+          24,
+          13,
+          32,
+          25
+        ]
+      }
+    ],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "UP14FP8624",
+        "char_count": 10,
+        "ocr_confidence": 0.9398443102836609
+      }
+    ],
+    "plate_crop": "data/challans/challan_609134D4_VIOLATION/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_609134D4_VIOLATION/plate_ocr.jpg",
+    "status": "ok"
+  },
+  "no_helmet_crops": [
+    {
+      "path": "data/challans/challan_609134D4_VIOLATION/no_helmet_crop_00_conf0.84.jpg",
+      "confidence": 0.844935953617096
+    }
+  ],
+  "files": {
+    "original": "data/challans/challan_609134D4_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_609134D4_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_609134D4_VIOLATION/challan.md",
+    "plate_crop": "data/challans/challan_609134D4_VIOLATION/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_609134D4_VIOLATION/plate_ocr.jpg"
+  }
+}

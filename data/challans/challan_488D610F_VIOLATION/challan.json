@@ -1,0 +1,195 @@
+{
+  "challan_id": "488D610F",
+  "challan_dir": "data/challans/challan_488D610F_VIOLATION",
+  "source_image": "data/extracted/extracted_1782218125_2.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Riding without helmet"
+  ],
+  "fine_total": 1000,
+  "registration_number": "DL85CY9567",
+  "vlm_description": "The image shows a man riding a motor scooter down a street, wearing a white t-shirt and black pants.",
+  "vlm_evidence": [
+    "YOLO detected: Riding without helmet",
+    "VLM caption (on crop): The image shows a man riding a motor scooter down a street, wearing a white t-shirt and black pants."
+  ],
+  "detections": [
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.8910868763923645,
+      "box": [
+        38,
+        0,
+        202,
+        367
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.721587061882019,
+      "box": [
+        86,
+        269,
+        137,
+        301
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "DL85CY9567",
+    "ocr_confidence": 0.8996926665306091,
+    "char_count": 10,
+    "latency_ms": 118.04,
+    "characters": [
+      {
+        "char": "L",
+        "conf": 0.9437283873558044,
+        "x": 0.4630006016164586,
+        "y": 0.360019808723813,
+        "bbox": [
+          29,
+          10,
+          34,
+          20
+        ]
+      },
+      {
+        "char": "9",
+        "conf": 0.9433879852294922,
+        "x": 0.4981039157812146,
+        "y": 0.6473934309823173,
+        "bbox": [
+          31,
+          22,
+          37,
+          32
+        ]
+      },
+      {
+        "char": "C",
+        "conf": 0.9426537752151489,
+        "x": 0.2628108107525369,
+        "y": 0.6414976119995117,
+        "bbox": [
+          15,
+          21,
+          21,
+          31
+        ]
+      },
+      {
+        "char": "8",
+        "conf": 0.9275636076927185,
+        "x": 0.5696476646091627,
+        "y": 0.3501926490238735,
+        "bbox": [
+          36,
+          9,
+          42,
+          19
+        ]
+      },
+      {
+        "char": "6",
+        "conf": 0.9107566475868225,
+        "x": 0.6688752381697946,
+        "y": 0.6490824109032041,
+        "bbox": [
+          43,
+          22,
+          49,
+          32
+        ]
+      },
+      {
+        "char": "Y",
+        "conf": 0.9029902815818787,
+        "x": 0.35450585683186847,
+        "y": 0.6428528286161876,
+        "bbox": [
+          21,
+          22,
+          27,
+          31
+        ]
+      },
+      {
+        "char": "5",
+        "conf": 0.8880653977394104,
+        "x": 0.5867000524548517,
+        "y": 0.6497012547084263,
+        "bbox": [
+          37,
+          22,
+          42,
+          32
+        ]
+      },
+      {
+        "char": "7",
+        "conf": 0.8735312819480896,
+        "x": 0.7587927113408628,
+        "y": 0.6544798896426246,
+        "bbox": [
+          49,
+          22,
+          55,
+          32
+        ]
+      },
+      {
+        "char": "D",
+        "conf": 0.8576971888542175,
+        "x": 0.37623829772506934,
+        "y": 0.3403244132087344,
+        "bbox": [
+          22,
+          9,
+          28,
+          19
+        ]
+      },
+      {
+        "char": "S",
+        "conf": 0.8065521121025085,
+        "x": 0.6775920702063519,
+        "y": 0.34925967171078637,
+        "bbox": [
+          43,
+          8,
+          50,
+          20
+        ]
+      }
+    ],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "DL85CY9567",
+        "char_count": 10,
+        "ocr_confidence": 0.8996926665306091
+      }
+    ],
+    "plate_crop": "data/challans/challan_488D610F_VIOLATION/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_488D610F_VIOLATION/plate_ocr.jpg",
+    "status": "ok"
+  },
+  "no_helmet_crops": [
+    {
+      "path": "data/challans/challan_488D610F_VIOLATION/no_helmet_crop_00_conf0.89.jpg",
+      "confidence": 0.8910868763923645
+    }
+  ],
+  "files": {
+    "original": "data/challans/challan_488D610F_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_488D610F_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_488D610F_VIOLATION/challan.md",
+    "plate_crop": "data/challans/challan_488D610F_VIOLATION/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_488D610F_VIOLATION/plate_ocr.jpg"
+  }
+}

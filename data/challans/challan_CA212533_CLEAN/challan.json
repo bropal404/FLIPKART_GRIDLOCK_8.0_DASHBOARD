@@ -1,0 +1,101 @@
+{
+  "challan_id": "CA212533",
+  "challan_dir": "data/challans/challan_CA212533_CLEAN",
+  "source_image": "data/extracted/extracted_1782218734_0.jpg",
+  "verdict": "CLEAN",
+  "violations": [],
+  "fine_total": 0,
+  "registration_number": "104",
+  "vlm_description": "",
+  "vlm_evidence": [],
+  "detections": [
+    {
+      "class_id": 0,
+      "raw_class_name": "helmet",
+      "class_name": "helmet",
+      "confidence": 0.43352413177490234,
+      "box": [
+        65,
+        0,
+        92,
+        21
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.3586116433143616,
+      "box": [
+        63,
+        132,
+        88,
+        152
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "104",
+    "ocr_confidence": 0.8029220898946127,
+    "char_count": 3,
+    "latency_ms": 155.76,
+    "characters": [
+      {
+        "char": "1",
+        "conf": 0.9615440368652344,
+        "x": 0.4159115300034032,
+        "y": 0.6650440876300519,
+        "bbox": [
+          11,
+          13,
+          15,
+          21
+        ]
+      },
+      {
+        "char": "0",
+        "conf": 0.8990328907966614,
+        "x": 0.6424277912486683,
+        "y": 0.6844222545623779,
+        "bbox": [
+          19,
+          14,
+          22,
+          21
+        ]
+      },
+      {
+        "char": "4",
+        "conf": 0.5481893420219421,
+        "x": 0.7353370550907019,
+        "y": 0.6858288874992957,
+        "bbox": [
+          22,
+          14,
+          25,
+          21
+        ]
+      }
+    ],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "104",
+        "char_count": 3,
+        "ocr_confidence": 0.8029220898946127
+      }
+    ],
+    "plate_crop": "data/challans/challan_CA212533_CLEAN/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_CA212533_CLEAN/plate_ocr.jpg",
+    "status": "ok"
+  },
+  "no_helmet_crops": [],
+  "files": {
+    "original": "data/challans/challan_CA212533_CLEAN/original.jpg",
+    "yolo_marked": "data/challans/challan_CA212533_CLEAN/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_CA212533_CLEAN/challan.md",
+    "plate_crop": "data/challans/challan_CA212533_CLEAN/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_CA212533_CLEAN/plate_ocr.jpg"
+  }
+}

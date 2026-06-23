@@ -1,0 +1,209 @@
+{
+  "challan_id": "C5016E29",
+  "challan_dir": "data/challans/challan_C5016E29_VIOLATION",
+  "source_image": "data/extracted/extracted_1782217958_3.jpg",
+  "verdict": "VIOLATION",
+  "violations": [
+    "Riding without helmet",
+    "Triple Riding"
+  ],
+  "fine_total": 3000,
+  "registration_number": "UP14FP8624",
+  "vlm_description": "The image shows three men riding on the back of a motor scooter down a street, with a footpath on the right side of the road. The men are wearing casual clothing and appear to be enjoying the ride.",
+  "vlm_evidence": [
+    "YOLO detected: Riding without helmet",
+    "VLM caption (on crop): The image shows three men riding on the back of a motor scooter down a street, with a footpath on the right side of the ",
+    "VLM fallback: triple-riding pattern in caption."
+  ],
+  "detections": [
+    {
+      "class_id": 1,
+      "raw_class_name": "no_helmet",
+      "class_name": "no_helmet",
+      "confidence": 0.8461401462554932,
+      "box": [
+        33,
+        8,
+        250,
+        452
+      ]
+    },
+    {
+      "class_id": 4,
+      "raw_class_name": "license_plate",
+      "class_name": "license_plate",
+      "confidence": 0.625907838344574,
+      "box": [
+        133,
+        332,
+        190,
+        370
+      ]
+    },
+    {
+      "class_id": 3,
+      "raw_class_name": "rider",
+      "class_name": "rider",
+      "confidence": 0.309405118227005,
+      "box": [
+        37,
+        8,
+        176,
+        357
+      ]
+    }
+  ],
+  "ocr": {
+    "plate_text": "UP14FP8624",
+    "ocr_confidence": 0.8719851613044739,
+    "char_count": 10,
+    "latency_ms": 107.48,
+    "characters": [
+      {
+        "char": "8",
+        "conf": 0.9564995169639587,
+        "x": 0.45960215779093955,
+        "y": 0.6836966323852539,
+        "bbox": [
+          31,
+          28,
+          38,
+          40
+        ]
+      },
+      {
+        "char": "2",
+        "conf": 0.9526103734970093,
+        "x": 0.6453714246873732,
+        "y": 0.6850188255310059,
+        "bbox": [
+          45,
+          27,
+          53,
+          40
+        ]
+      },
+      {
+        "char": "P",
+        "conf": 0.9520251750946045,
+        "x": 0.2856572386506316,
+        "y": 0.6894672966003418,
+        "bbox": [
+          18,
+          28,
+          25,
+          40
+        ]
+      },
+      {
+        "char": "6",
+        "conf": 0.9470992684364319,
+        "x": 0.554333005632673,
+        "y": 0.6820288848876953,
+        "bbox": [
+          39,
+          27,
+          46,
+          40
+        ]
+      },
+      {
+        "char": "4",
+        "conf": 0.9430450201034546,
+        "x": 0.7430948529924665,
+        "y": 0.6876367568969727,
+        "bbox": [
+          53,
+          28,
+          60,
+          40
+        ]
+      },
+      {
+        "char": "P",
+        "conf": 0.9345372319221497,
+        "x": 0.4316427057439631,
+        "y": 0.40069371223449707,
+        "bbox": [
+          29,
+          13,
+          36,
+          26
+        ]
+      },
+      {
+        "char": "1",
+        "conf": 0.9267897009849548,
+        "x": 0.5168949969403156,
+        "y": 0.414654426574707,
+        "bbox": [
+          37,
+          14,
+          42,
+          26
+        ]
+      },
+      {
+        "char": "4",
+        "conf": 0.9006425142288208,
+        "x": 0.6044344716257863,
+        "y": 0.4010393238067627,
+        "bbox": [
+          43,
+          14,
+          49,
+          25
+        ]
+      },
+      {
+        "char": "F",
+        "conf": 0.7701141834259033,
+        "x": 0.6877387901405235,
+        "y": 0.40539295196533204,
+        "bbox": [
+          49,
+          13,
+          56,
+          26
+        ]
+      },
+      {
+        "char": "U",
+        "conf": 0.43648862838745117,
+        "x": 0.33360167912074495,
+        "y": 0.4038902378082275,
+        "bbox": [
+          22,
+          14,
+          29,
+          26
+        ]
+      }
+    ],
+    "conf_threshold": 0.35,
+    "threshold_candidates": [
+      {
+        "conf_threshold": 0.35,
+        "plate_text": "UP14FP8624",
+        "char_count": 10,
+        "ocr_confidence": 0.8719851613044739
+      }
+    ],
+    "plate_crop": "data/challans/challan_C5016E29_VIOLATION/plate_crop.jpg",
+    "plate_annotated": "data/challans/challan_C5016E29_VIOLATION/plate_ocr.jpg",
+    "status": "ok"
+  },
+  "no_helmet_crops": [
+    {
+      "path": "data/challans/challan_C5016E29_VIOLATION/no_helmet_crop_00_conf0.85.jpg",
+      "confidence": 0.8461401462554932
+    }
+  ],
+  "files": {
+    "original": "data/challans/challan_C5016E29_VIOLATION/original.jpg",
+    "yolo_marked": "data/challans/challan_C5016E29_VIOLATION/yolo_marked.jpg",
+    "challan_md": "data/challans/challan_C5016E29_VIOLATION/challan.md",
+    "plate_crop": "data/challans/challan_C5016E29_VIOLATION/plate_crop.jpg",
+    "plate_ocr": "data/challans/challan_C5016E29_VIOLATION/plate_ocr.jpg"
+  }
+}
