@@ -21,7 +21,13 @@ Navigate to `localhost:5000` in your browser (or the address printed by Flask).
 
 **GPU recommended.** The pipeline will use CUDA automatically if available -- `torch.cuda.is_available()` is checked at startup.
 
+
+## Please refer [project report here ](Flipkart%20GRiDlock%20report.pdf) for detailed system architecture
+
 ---
+
+![demo of the application](image.png)
+
 
 ## What It Does
 
