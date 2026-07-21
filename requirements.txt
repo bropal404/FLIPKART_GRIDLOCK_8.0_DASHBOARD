@@ -96,7 +96,7 @@ packaging==26.2
 pandas==3.0.3
 parso==0.8.7
 pexpect==4.9.0
-pillow==12.2.0
+pillow==12.3.0
 platformdirs==4.10.0
 polars==1.41.2
 polars-runtime-32==1.41.2
