@@ -39,7 +39,7 @@ fsspec==2026.6.0
 geographiclib==2.1
 geopy==2.4.1
 gitdb==4.0.12
-gitpython==3.1.50
+gitpython==3.1.57
 gunicorn==26.0.0
 h11==0.16.0
 hf-xet==1.5.1
