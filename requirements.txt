@@ -5,7 +5,7 @@ aiosignal==1.4.0
 altair==6.2.1
 annotated-doc==0.0.4
 annotated-types==0.7.0
-anyio==4.14.0
+anyio==4.14.2
 apscheduler==3.11.2
 asttokens==3.0.1
 attrs==26.1.0
